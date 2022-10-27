@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, TextInput, Modal, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { styles } from './styles'
 import { CountTiles } from './components/CountTiles';
 import { OswaldText } from './components/OswaldText'
 import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,18 +16,9 @@ export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
     getData()
   }, [])
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
 
   const storeCount = async (count) => {
     await setItem('@count', count)
@@ -68,8 +58,10 @@ export default function App() {
     return <>{playerNameArr}</>
   }
 
-  return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+  if (!fontsLoaded) {
+    return null;
+  } else return (
+    <View style={styles.container}>
       <OswaldText text="Number of Players:" styles={styles.h1} />
       <CountTiles 
         storeCount={storeCount}
