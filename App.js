@@ -1,28 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, TextInput, Modal, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { styles } from './styles'
+import { CountTiles } from './components/CountTiles';
+import { OswaldText } from './components/OswaldText'
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Oswald': require('./assets/fonts/Oswald-Regular.otf'),
+  });
   const { getItem, setItem } = AsyncStorage;
-  const [name, setName] = useState('value')
   const [playerCount, setPlayerCount] = useState()
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
     getData()
   }, [])
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   const storeCount = async (count) => {
-    if (+count < 1 || +count > 4) return
     await setItem('@count', count)
     setPlayerCount(count)
   }
   
   const getData = async () => {
     const count = await getItem('@count')
-    console.log({ count })
     setPlayerCount(count)
     return count
   }
@@ -54,57 +68,27 @@ export default function App() {
     return <>{playerNameArr}</>
   }
 
-  const CountTiles = () => {
-    return (
-      <View style={styles.rack}>      
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true)
-            setPlayerCount("2")
-            storeCount("2")
-          }}
-          >
-          <View style={styles.tile} key="2" data-letter="2" ><Text style={{ paddingLeft: 10 }}>2</Text></View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true)
-            setPlayerCount("3")
-            storeCount("3")
-          }}
-          >
-          <View style={styles.tile} key="3" data-letter="3" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true)
-            setPlayerCount("4")
-            storeCount("4")
-          }}
-          >
-          <View style={styles.tile} key="4" data-letter="4" />
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
   return (
-    <View style={styles.container}>
-      <Text>Pick number of players!</Text>
-      <CountTiles />
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <OswaldText text="Number of Players:" styles={styles.h1} />
+      <CountTiles 
+        storeCount={storeCount}
+        setModalVisible={setModalVisible}
+        setPlayerCount={setPlayerCount}
+      />
       <TouchableOpacity
         onPress={() => clearAll()}
       >
-        <Text style={{ color: 'red'}}>Reset</Text>
+        <OswaldText text="Reset" styles={{ color: 'red'}} />
       </TouchableOpacity>
       <StatusBar style="auto" />
       <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -125,5 +109,3 @@ export default function App() {
     </View>
   );
 }
-
-

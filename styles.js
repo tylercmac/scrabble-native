@@ -1,14 +1,20 @@
 import { StyleSheet } from 'react-native';
-
+import tileBackground from './assets/veneer-birch.png'
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#b01315',
+    color: '#e6c998',
     alignItems: 'center',
     justifyContent: 'center',
   },
-    centeredView: {
+  h1: {
+    fontSize: 30, 
+    color: '#e6c998',
+    margin: 5
+  },
+  centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -42,7 +48,7 @@ export const styles = StyleSheet.create({
   },
   textStyle: {
     color: "white",
-    fontWeight: "bold",
+    // fontWeight: "bold",
     textAlign: "center"
   },
   modalText: {
@@ -57,13 +63,13 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 15
   },
-  tile: {
-    margin: 1.5,
-    backgroundImage: "url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49914/veneer-birch-texture-fs8.png')",
+  countTile: {
+    margin: 10,
+    // backgroundImage: `url(${require('./assets/veneer-birch.png').default}`,
     backgroundColor: "#f5cf90",
     position: "relative",
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     boxSizing: "border-box",
     boxShadow: "0 4 3 -2 rgba(0, 0, 0, 0.4)",
     borderStyle: "solid",
@@ -76,26 +82,17 @@ export const styles = StyleSheet.create({
     borderRightColor: "rgba(0, 0, 0, 0.15)",
     borderBottomColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: 3,
-    "[data-letter]::before": {
-      content: "attr(data-letter)",
-      textTransform: "uppercase",
-      fontFamily: "Oswald, sans-serif",
-      fontSize: 18.5,
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      color: "rgba(0, 0, 0, 0.6)",
-      textShadow: "4px 4px 6px #f5cf90, 0 0 0 rgba(0, 0, 0, 0.7), 1px 2px 1px rgba(255, 255, 255, 0.5)"
-    },
-    "[data-letter]::after": {
-      color: "rgba(0, 0, 0, 0.7)",
-      fontFamily: "sans-serif",
-      fontSize: 11,
-      position: "absolute",
-      right: "13.5%",
-      bottom: "14.5%",
-      transform: "translate(50%, 50%)",
-    }
   },
+  countNumber: {
+    alignSelf: "center",
+    margin: "auto",
+    fontSize: 23
+  },
+  countPoints: {
+    fontFamily: "sans-serif",
+    position: "absolute",
+    bottom: 0,
+    right: 4,
+    fontSize: 10,
+  }
 });
