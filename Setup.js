@@ -5,19 +5,12 @@ import { useEffect, useState } from 'react';
 import { styles } from './styles'
 import { CountTiles } from './components/CountTiles';
 import { OswaldText } from './components/OswaldText'
-// import {
-//   useFonts,
-//   Oswald_400Regular,
-
-// } from '@expo-google-fonts/oswald';
 
 export default function Setup({ navigation }) {
-  // const [fontsLoaded] = useFonts({
-  //   Oswald_400Regular
-  // });
-  const { getItem, setItem } = AsyncStorage;
   const [playerCount, setPlayerCount] = useState()
+  const [playerNames, setPlayerNames] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
+  const { getItem, setItem } = AsyncStorage;
 
   useEffect(() => {
     getData()
@@ -28,12 +21,12 @@ export default function Setup({ navigation }) {
     await setItem('@count', count)
     setPlayerCount(count)
   }
-  
+
   const getData = async () => {
     const count = await getItem('@count')
     setPlayerCount(count)
-    if (count) {
-      navigation.push('Game', { count })
+    if (count && playerNames) {
+      navigation.push('Game', { count, names: playerNames })
     }
     return count
   }
@@ -56,7 +49,10 @@ export default function Setup({ navigation }) {
         <TextInput 
           key={i}
           type="text" 
-          className="player-name" 
+          onChangeText={newText => {
+            playerNames[i] = newText
+            setPlayerNames(playerNames)
+          }}
           maxLength={9}
           placeholder="name"
         />
@@ -94,7 +90,7 @@ export default function Setup({ navigation }) {
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible)
-                navigation.navigate('Game', { count: playerCount })
+                navigation.navigate('Game', { count: playerCount, names: playerNames })
               }}
             >
               <Text style={styles.textStyle}>Start Game!</Text>

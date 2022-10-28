@@ -35,8 +35,7 @@ export default function App () {
   if (!fontsLoaded) {
     return null;
   }
-  console.log({ fontsLoaded });
-
+  
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <NavigationContainer>

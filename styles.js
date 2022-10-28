@@ -57,7 +57,6 @@ export const styles = StyleSheet.create({
   rack: {
     display: "flex",
     justifyContent: "center",
-    width: "50%",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15
@@ -82,6 +81,32 @@ export const styles = StyleSheet.create({
     borderBottomColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: 3,
   },
+  letterTile: {
+    margin: 2,
+    // backgroundImage: `url(${require('./assets/veneer-birch.png').default}`,
+    backgroundColor: "#f5cf90",
+    position: "relative",
+    width: 25,
+    height: 27,
+    boxSizing: "border-box",
+    boxShadow: "0 4 3 -2 rgba(0, 0, 0, 0.4)",
+    borderStyle: "solid",
+    borderTopWidth: 3,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 4,
+    borderTopColor: "rgba(255, 255, 255, 0.45)",
+    borderLeftColor: "rgba(255, 255, 255, 0.25)",
+    borderRightColor: "rgba(0, 0, 0, 0.15)",
+    borderBottomColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 3,
+  },
+  tileLetter: {
+    alignSelf: "center",
+    justifySelf: "center",
+    height: "100%",
+    fontSize: 12,
+  },
   countNumber: {
     alignSelf: "center",
     margin: "auto",
@@ -100,5 +125,10 @@ export const styles = StyleSheet.create({
     position: 'absolute', 
     bottom: 0, 
     width: '100%'
+  },
+  centerItems: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
