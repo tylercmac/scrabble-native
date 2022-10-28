@@ -93,5 +93,12 @@ export const styles = StyleSheet.create({
     bottom: 0,
     right: 4,
     fontSize: 10,
+  },
+  resetFooter: {
+    backgroundColor: '#e6c998',
+    color: '#b01315',
+    position: 'absolute', 
+    bottom: 0, 
+    width: '100%'
   }
 });

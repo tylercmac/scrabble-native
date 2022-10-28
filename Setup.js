@@ -5,16 +5,16 @@ import { useEffect, useState } from 'react';
 import { styles } from './styles'
 import { CountTiles } from './components/CountTiles';
 import { OswaldText } from './components/OswaldText'
-import {
-  useFonts,
-  Oswald_400Regular,
+// import {
+//   useFonts,
+//   Oswald_400Regular,
 
-} from '@expo-google-fonts/oswald';
+// } from '@expo-google-fonts/oswald';
 
 export default function Setup({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    Oswald_400Regular
-  });
+  // const [fontsLoaded] = useFonts({
+  //   Oswald_400Regular
+  // });
   const { getItem, setItem } = AsyncStorage;
   const [playerCount, setPlayerCount] = useState()
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,10 +31,10 @@ export default function Setup({ navigation }) {
   
   const getData = async () => {
     const count = await getItem('@count')
-    if (count) {
-      navigation.navigate('Game')
-    }
     setPlayerCount(count)
+    if (count) {
+      navigation.push('Game', { count })
+    }
     return count
   }
 
@@ -65,9 +65,7 @@ export default function Setup({ navigation }) {
     return <>{playerNameArr}</>
   }
 
-  if (!fontsLoaded) {
-    return null
-  } else return (
+  return (
     <View style={styles.container}>
       <OswaldText text="Number of Players:" styles={styles.h1} />
       <CountTiles 
@@ -96,7 +94,7 @@ export default function Setup({ navigation }) {
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible)
-                navigation.navigate('Game')
+                navigation.navigate('Game', { count: playerCount })
               }}
             >
               <Text style={styles.textStyle}>Start Game!</Text>
