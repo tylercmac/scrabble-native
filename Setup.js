@@ -26,7 +26,7 @@ export default function Setup({ navigation }) {
     const count = await getItem('@count')
     setPlayerCount(count)
     if (count && playerNames) {
-      navigation.push('Game', { count, names: playerNames })
+      navigation.push('Game', { names: playerNames })
     }
     return count
   }
@@ -90,7 +90,7 @@ export default function Setup({ navigation }) {
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible)
-                navigation.navigate('Game', { count: playerCount, names: playerNames })
+                navigation.navigate('Game', { names: playerNames })
               }}
             >
               <Text style={styles.textStyle}>Start Game!</Text>

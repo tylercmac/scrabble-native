@@ -59,7 +59,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15
   },
   countTile: {
     margin: 10,
@@ -130,5 +129,17 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  scoreRow: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    width: 50,
+    justifyContent: 'space-between'
+  },
+  scoreInput: {
+    borderBottomWidth: 1,
+    width: 30,
+    height: 20,
+    marginRight: 20
   }
 });
