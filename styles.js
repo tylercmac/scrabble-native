@@ -8,11 +8,18 @@ export const styles = StyleSheet.create({
     color: '#e6c998',
     alignItems: 'center',
     justifyContent: 'center',
+    height: '100%'
   },
   h1: {
     fontSize: 30, 
     color: '#e6c998',
-    margin: 5
+    padding: 5,
+    textAlign: 'center',
+  },
+  appTitle: {
+    backgroundColor: '#e6c998',
+    color: '#b01315',
+    paddingTop: 15
   },
   centeredView: {
     flex: 1,
@@ -101,10 +108,10 @@ export const styles = StyleSheet.create({
     borderRadius: 3,
   },
   tileLetter: {
-    alignSelf: "center",
-    justifySelf: "center",
-    height: "100%",
-    fontSize: 12,
+    position: "absolute",
+    left: 8.5,
+    bottom: .75,
+    fontSize: 14,
   },
   countNumber: {
     alignSelf: "center",
@@ -123,23 +130,27 @@ export const styles = StyleSheet.create({
     color: '#b01315',
     position: 'absolute', 
     bottom: 0, 
-    width: '100%'
+    width: '100%',
   },
   centerItems: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 8
   },
   scoreRow: {
     display: 'flex', 
     flexDirection: 'row', 
-    width: 50,
+    width: 100,
     justifyContent: 'space-between'
   },
   scoreInput: {
     borderBottomWidth: 1,
-    width: 30,
-    height: 20,
-    marginRight: 20
+    width: 40,
+    height: 15,
+    marginRight: 20,
+    marginTop: 7,
+    backgroundColor: '#e6c998',
+    opacity: .5 
   }
 });

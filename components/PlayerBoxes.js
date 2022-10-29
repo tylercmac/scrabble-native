@@ -57,10 +57,14 @@ export default function PlayerBoxes({ names }) {
     }
     playerBoxes.push(
       <View style={styles.centerItems} key={playerNames[i]}>
-        <Text>Score: {playerScores[i] || 0}</Text>
-        <View style={styles.rack}>
-          {tileArr}
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{flex: 1, height: 1, backgroundColor: '#e6c998'}} />
+          <View style={styles.rack}>
+            {tileArr}
+          </View>
+          <View style={{flex: 1, height: 1, backgroundColor: '#e6c998'}} />
         </View>
+        <OswaldText styles={{ color: '#e6c998' }}  text={`Score: ${playerScores[i] || 0}`}/>
         <View style={styles.scoreRow}>
           <TextInput 
             style={styles.scoreInput}
@@ -81,19 +85,23 @@ export default function PlayerBoxes({ names }) {
               setNewPlayerScores(newPlayerScores)
             }}
           />
-          <TouchableHighlight onPress={() => {
-            const newArray = [...playerScores]
-            const updatedScore = (+playerScores[i] - newPlayerScores[i])
-            newArray[i] = updatedScore
-            newPlayerScores[i] = 0
-            storePlayerScores(newArray)
+          <TouchableHighlight 
+            style={{ marginLeft: 10 }}
+            onPress={() => {
+              const newArray = [...playerScores]
+              const updatedScore = (+playerScores[i] - newPlayerScores[i])
+              newArray[i] = updatedScore
+              newPlayerScores[i] = 0
+              storePlayerScores(newArray)
           }}>
             <OswaldText text="(undo)"/>
           </TouchableHighlight>
-          <TouchableHighlight onPress={() => {
-            const newArray = [...playerScores]
-            newArray[i] = 0
-            storePlayerScores(newArray)
+          <TouchableHighlight
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              const newArray = [...playerScores]
+              newArray[i] = 0
+              storePlayerScores(newArray)
           }}>
             <OswaldText text="(clear)"/>
           </TouchableHighlight>

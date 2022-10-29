@@ -2,6 +2,8 @@ import { useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { OswaldText } from './components/OswaldText';
+import  { styles } from './styles'
 
 import {
   useFonts,
@@ -38,8 +40,11 @@ export default function App () {
   
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <OswaldText text="ScrabbleMaster" styles={{...styles.h1, ...styles.appTitle}} />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+        >
           <Stack.Screen
             name="Setup"
             component={Setup}

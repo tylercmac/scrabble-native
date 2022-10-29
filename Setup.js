@@ -31,17 +31,6 @@ export default function Setup({ navigation }) {
     return count
   }
 
-  const clearAll = async () => {
-    try {
-      await AsyncStorage.clear()
-      setPlayerCount()
-    } catch(e) {
-      console.log('Error while clearing: ', e);
-      
-    }
-    console.log('Done.')
-  }
-
   const PlayerInputs = () => {
     const playerNameArr = []
     for (let i = 0; i < playerCount; i++) {
@@ -69,11 +58,6 @@ export default function Setup({ navigation }) {
         setModalVisible={setModalVisible}
         setPlayerCount={setPlayerCount}
       />
-      <TouchableOpacity
-        onPress={() => clearAll()}
-      >
-        <OswaldText text="Reset" styles={{ color: 'red'}} />
-      </TouchableOpacity>
       <StatusBar style="auto" />
       <Modal
         animationType="slide"

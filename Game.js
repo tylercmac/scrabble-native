@@ -20,21 +20,21 @@ export default function Game({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
-      <OswaldText text={"ScrabbleMaster"} styles={styles.h1} />
-      <View style={styles.centerItems}>
-      <PlayerBoxes names={names} />
-      </View>
-      <View style={styles.resetFooter}>
-      <Pressable 
-        style={styles.resetFooter} 
-        onPress={async () => {
-          await clearAll()
-          navigation.navigate('Setup')
-        }}>
-        <OswaldText text="Reset" style={{ color: '#b01315' }} />
-      </Pressable>
+      <View style={styles.container}>
+        <View style={styles.centerItems}>
+        <PlayerBoxes names={names} />
+        <View style={{ borderColor: '#e6c998', borderWidth: .5, width: 400, marginTop: 20 }} />
         </View>
-  </View>
+        <View style={styles.resetFooter}>
+        <Pressable 
+          style={styles.resetFooter} 
+          onPress={async () => {
+            await clearAll()
+            navigation.navigate('Setup')
+          }}>
+          <OswaldText text="Reset" styles={{ textAlign: 'center', color: '#b01315' }} />
+        </Pressable>
+        </View>
+      </View>
   );
 };
