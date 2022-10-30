@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import tileBackground from './assets/veneer-birch.png'
 
 export const styles = StyleSheet.create({
   container: {
@@ -69,7 +68,6 @@ export const styles = StyleSheet.create({
   },
   countTile: {
     margin: 10,
-    // backgroundImage: `url(${require('./assets/veneer-birch.png').default}`,
     backgroundColor: "#f5cf90",
     position: "relative",
     width: 50,
@@ -88,30 +86,50 @@ export const styles = StyleSheet.create({
     borderRadius: 3,
   },
   letterTile: {
-    margin: 2,
-    // backgroundImage: `url(${require('./assets/veneer-birch.png').default}`,
-    backgroundColor: "#f5cf90",
-    position: "relative",
-    width: 25,
-    height: 27,
-    boxSizing: "border-box",
-    boxShadow: "0 4 3 -2 rgba(0, 0, 0, 0.4)",
-    borderStyle: "solid",
-    borderTopWidth: 3,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 4,
-    borderTopColor: "rgba(255, 255, 255, 0.45)",
-    borderLeftColor: "rgba(255, 255, 255, 0.25)",
-    borderRightColor: "rgba(0, 0, 0, 0.15)",
-    borderBottomColor: "rgba(0, 0, 0, 0.3)",
+    marginLeft: 2,
+    marginRight: 2,
+    width: 30,
+    height: 30,
     borderRadius: 3,
+    overflow: 'hidden'
+  },
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   tileLetter: {
+    justifySelf: 'center',
+    alignSelf: 'center',
+    fontSize: 18,
+  },
+  scoreBox: {
+    backgroundColor: '#b01315',
+    borderColor: '#e6c998',
+    borderWidth: 1, 
+    borderRadius: 3,
+    height: 25, 
+    width: 100,
+    alignItems: 'center', 
+    display: 'flex', 
+    marginTop: 4
+  },
+  scoreText: {
+    color: '#e6c998',
+    position: 'absolute',
+    bottom: 0,
+    fontSize: 16
+  },
+  undoClear: {
+    fontStyle: 'italic',
+    fontSize: 12
+  },
+  letterPoints: {
     position: "absolute",
-    left: 8.5,
-    bottom: .75,
-    fontSize: 14,
+    bottom: 0,
+    right: 4,
+    fontSize: 6,
   },
   countNumber: {
     alignSelf: "center",
@@ -142,15 +160,16 @@ export const styles = StyleSheet.create({
     display: 'flex', 
     flexDirection: 'row', 
     width: 100,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   scoreInput: {
     borderBottomWidth: 1,
-    width: 40,
-    height: 15,
+    width: 50,
+    height: 20,
     marginRight: 20,
-    marginTop: 7,
-    backgroundColor: '#e6c998',
-    opacity: .5 
+    marginTop: 6,
+    backgroundColor: 'rgba(230, 201, 152, .5)',
+    fontSize: 10
   }
 });

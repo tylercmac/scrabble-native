@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, TextInput, TouchableHighlight, Text } from 'react-native';
+import { View, TextInput, TouchableHighlight, Text, ImageBackground } from 'react-native';
 import { OswaldText } from './OswaldText'
 import { styles } from '../styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,6 +39,7 @@ export default function PlayerBoxes({ names }) {
 
   const calcNewScore = (i) => {
     const updatedScore = ((+playerScores[i] || 0)  + +newPlayerScores[i])
+    if (+updatedScore > 999) return
     const newArray = [...playerScores]
     newArray[i] = updatedScore
     storePlayerScores(newArray)
@@ -50,8 +51,14 @@ export default function PlayerBoxes({ names }) {
     const tileArr =[]
     for (let j = 0; j < playerNames[i].length; j++) {
       tileArr.push(
-        <View style={styles.letterTile} key={[j]}>
-          <OswaldText styles={styles.tileLetter} text={playerNames[i][j]} />
+        <View style={styles.shadowProp} key={[j]}>
+          <ImageBackground 
+            style={styles.letterTile}
+            source={require('../assets/tile.jpg')} 
+            >
+              <OswaldText styles={{...styles.tileLetter, opacity: .85 }} text={playerNames[i][j].toUpperCase()} />
+              <OswaldText styles={styles.letterPoints} text="1" />
+            </ImageBackground>
         </View>
       )
     }
@@ -64,12 +71,15 @@ export default function PlayerBoxes({ names }) {
           </View>
           <View style={{flex: 1, height: 1, backgroundColor: '#e6c998'}} />
         </View>
-        <OswaldText styles={{ color: '#e6c998' }}  text={`Score: ${playerScores[i] || 0}`}/>
+        <View style={styles.scoreBox} >
+          <OswaldText styles={styles.scoreText}  text={`SCORE:  ${playerScores[i] || 0}`}/>
+        </View>
         <View style={styles.scoreRow}>
           <TextInput 
-            style={styles.scoreInput}
+            style={{...styles.scoreInput, fontFamily: 'Oswald_400Regular'}}
             value={input[i]}
             maxLength={3}
+            placeholder="ADD POINTS"
             keyboardType='numeric'
             onSubmitEditing={() => {
               const newArray = [...input]
@@ -94,7 +104,7 @@ export default function PlayerBoxes({ names }) {
               newPlayerScores[i] = 0
               storePlayerScores(newArray)
           }}>
-            <OswaldText text="(undo)"/>
+            <OswaldText text="(undo)" styles={styles.undoClear}/>
           </TouchableHighlight>
           <TouchableHighlight
             style={{ marginLeft: 20 }}
@@ -103,7 +113,7 @@ export default function PlayerBoxes({ names }) {
               newArray[i] = 0
               storePlayerScores(newArray)
           }}>
-            <OswaldText text="(clear)"/>
+            <OswaldText text="(clear)" styles={styles.undoClear}/>
           </TouchableHighlight>
         </View>
       </View>
