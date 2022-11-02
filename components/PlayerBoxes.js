@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { View, TextInput, TouchableHighlight, Text, ImageBackground } from 'react-native';
+import { View, TextInput, TouchableHighlight, ImageBackground, Keyboard, KeyboardAvoidingView,  ToastAndroid, } from 'react-native';
 import { OswaldText } from './OswaldText'
 import { styles } from '../styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function PlayerBoxes({ names }) {
   const [playerNames, setPlayerNames] = useState([])
@@ -39,11 +41,22 @@ export default function PlayerBoxes({ names }) {
 
   const calcNewScore = (i) => {
     const updatedScore = ((+playerScores[i] || 0)  + +newPlayerScores[i])
-    if (+updatedScore > 999) return
+    if (+updatedScore > 999) {
+      showToastWithGravity("Score cannot be over 1000")
+      return
+    }
     const newArray = [...playerScores]
     newArray[i] = updatedScore
     storePlayerScores(newArray)
   }
+
+  const showToastWithGravity = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
+  };
 
   const playerBoxes = []
 
@@ -63,7 +76,7 @@ export default function PlayerBoxes({ names }) {
       )
     }
     playerBoxes.push(
-      <View style={styles.centerItems} key={playerNames[i]}>
+      <View style={{...styles.centerItems, marginTop:8 }} key={playerNames[i]}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{flex: 1, height: 1, backgroundColor: '#e6c998'}} />
           <View style={styles.rack}>
@@ -71,21 +84,50 @@ export default function PlayerBoxes({ names }) {
           </View>
           <View style={{flex: 1, height: 1, backgroundColor: '#e6c998'}} />
         </View>
-        <View style={styles.scoreBox} >
-          <OswaldText styles={styles.scoreText}  text={`SCORE:  ${playerScores[i] || 0}`}/>
+        <View style={{...styles.scoreRow, marginRight: 47}}>
+          <TouchableHighlight 
+            style={{ marginRight: 5 }}
+            onPress={() => {
+              const newArray = [...playerScores]
+              const updatedScore = (+playerScores[i] - newPlayerScores[i])
+              newArray[i] = updatedScore
+              newPlayerScores[i] = 0
+              storePlayerScores(newArray)
+          }}>
+            <Icon name="undo" size={20} />
+          </TouchableHighlight>
+          <View style={styles.scoreBox} >
+            <OswaldText styles={styles.scoreText}  text={`SCORE:  ${playerScores[i] || 0}`}/>
+          </View>
+          <TouchableHighlight
+            style={{ marginLeft: 5 }}
+            onPress={() => {
+              const newArray = [...playerScores]
+              newArray[i] = 0
+              storePlayerScores(newArray)
+            }}>
+            <Icon name="clear" size={20} />
+          </TouchableHighlight>      
         </View>
+            
         <View style={styles.scoreRow}>
+        <KeyboardAvoidingView
+          behavior="position"
+          style={{flex: 1}}
+          >
+            <KeyboardAwareScrollView>
           <TextInput 
             style={{...styles.scoreInput, fontFamily: 'Oswald_400Regular'}}
             value={input[i]}
             maxLength={3}
-            placeholder="ADD POINTS"
             keyboardType='numeric'
             onSubmitEditing={() => {
+              Keyboard.dismiss()
               const newArray = [...input]
               newArray[i] = ''
               setInput(newArray)
               calcNewScore(i)
+              newPlayerScores[i] = 0
             }}
             onChangeText={score => {
               const newArr = [...input]
@@ -94,28 +136,23 @@ export default function PlayerBoxes({ names }) {
               newPlayerScores[i] = score
               setNewPlayerScores(newPlayerScores)
             }}
-          />
-          <TouchableHighlight 
-            style={{ marginLeft: 10 }}
-            onPress={() => {
-              const newArray = [...playerScores]
-              const updatedScore = (+playerScores[i] - newPlayerScores[i])
-              newArray[i] = updatedScore
-              newPlayerScores[i] = 0
-              storePlayerScores(newArray)
-          }}>
-            <OswaldText text="(undo)" styles={styles.undoClear}/>
-          </TouchableHighlight>
+            />
+            </KeyboardAwareScrollView>
+            </KeyboardAvoidingView>
+      
           <TouchableHighlight
-            style={{ marginLeft: 20 }}
-            onPress={() => {
-              const newArray = [...playerScores]
-              newArray[i] = 0
-              storePlayerScores(newArray)
+          style={{ marginRight: 10, marginTop: 5 }}
+          onPress={() => {
+            Keyboard.dismiss()
+            const newArray = [...input]
+            newArray[i] = ''
+            setInput(newArray)
+            calcNewScore(i)
           }}>
-            <OswaldText text="(clear)" styles={styles.undoClear}/>
-          </TouchableHighlight>
+        <Icon name="add-circle" size={25}  />
+        </TouchableHighlight>  
         </View>
+          {/* <OswaldText text="ADD POINTS" styles={{ fontSize: 12, color: 'green', marginTop: 4 }}/> */}
       </View>
     )
   }

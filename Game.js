@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Pressable, TextInput, ToastAndroid } from 'react-native';
+import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking } from 'react-native';
 import { OswaldText } from './components/OswaldText'
 import PlayerBoxes from './components/PlayerBoxes'
 import { styles } from './styles'
@@ -11,9 +11,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Game({ navigation, route }) {
   const { names } = route.params
   const [word, setWord] = useState('')
+  const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
     // readFile(RNFS.DocumentDirectoryPath)
+    !word.length ? setIsValid(false) : ''
   }, [])
 
   const clearAll = async () => {
@@ -26,10 +28,10 @@ export default function Game({ navigation, route }) {
     console.log('Done.')
   }
 
-  const showToastWithGravity = (isWord) => {
+  const showToastWithGravity = (message) => {
     ToastAndroid.showWithGravity(
-      isWord ? "This is a scrabble word" : "This isn't a scrabble word",
-      ToastAndroid.SHORT,
+      message,
+      ToastAndroid.LONG,
       ToastAndroid.CENTER
     );
   };
@@ -46,8 +48,10 @@ export default function Game({ navigation, route }) {
   // };
 
   const wordExists = async (wordsrch) => {
-    const exists = await txt.find((word => word === wordsrch.toUpperCase()))
-    console.log(exists)
+    Keyboard.dismiss()
+    const exists = await txt.find((listWord => listWord === word.toUpperCase()))
+    setIsValid(exists) 
+    showToastWithGravity(exists ? "This is a Scrabble Word" : "This is not a Scrabble Word")
     return exists
   }
 
@@ -76,30 +80,53 @@ export default function Game({ navigation, route }) {
 
   return (
       <View style={styles.container}>
-        <View style={styles.centerItems}>
-          <TextInput onChangeText={word => setWord(word)}/>
-        <Pressable 
-          style={{ height: 50 }} 
-          onPress={async () => {
-            const isWord = await wordExists(word) 
-            showToastWithGravity(isWord)
-            
-          }}>
-          <OswaldText text="check word" styles={{ textAlign: 'center', color: 'black' }} />
-        </Pressable>
-        <PlayerBoxes names={names} />
-        <View style={{ borderColor: '#e6c998', borderWidth: .5, width: 400, marginTop: 20 }} />
+
+        <View style={{ justifySelf: 'flex-start', justifyContent: 'center', alignItems: 'center', marginTop: 30, paddingTop: 10, backgroundColor: 'rgba(230, 201, 152, .9)', width: '50%', borderRadius: 3 }}>
+          <View style={{ height: 25}} >
+          {isValid && word.length ? <Pressable 
+            onPress={async () => {
+              setIsValid(false)
+              await Linking.openURL(`https://scrabblewordfinder.org/dictionary/${word}`)
+            }}>
+            <OswaldText text="Definition" styles={{ textAlign: 'center', color: '#b01315' }} />
+          </Pressable> : ''}
+              </View>
+              
+          
+          <TextInput
+            style={{...styles.wordInput, fontFamily: 'Oswald_400Regular', }}
+            onChangeText={word => setWord(word)} 
+            onSubmitEditing={async () => await wordExists()}
+            />
+          <Pressable 
+            style={{...styles.centerItems, height: 50 }} 
+            onPress={async () => {
+              Keyboard.dismiss()
+              const isWord = await wordExists(word) 
+              showToastWithGravity(isWord ? "This is a Scrabble Word" : "This is not a Scrabble Word")
+              
+            }}>
+            <OswaldText text="CHECK WORD" styles={{ color: '#b01315', fontSize: 16 }} />
+          </Pressable>
         </View>
+
+        <View style={{ marginTop: 20 }}>
+          <PlayerBoxes names={names} />
+          <View style={{ borderColor: '#e6c998', borderWidth: .5, width: 400, marginTop: 20 }} />
+        </View>
+
         <View style={styles.resetFooter}>
-        <Pressable 
-          style={styles.resetFooter} 
-          onPress={async () => {
-            await clearAll()
-            navigation.navigate('Setup')
-          }}>
-          <OswaldText text="Reset" styles={{ textAlign: 'center', color: '#b01315' }} />
-        </Pressable>
+          <Pressable 
+            style={styles.resetFooter} 
+            onPress={async () => {
+              await clearAll()
+              navigation.navigate('Setup')
+            }}>
+            <OswaldText text="Reset" styles={{ textAlign: 'center', color: '#b01315' }} />
+          </Pressable>
+
         </View>
+
       </View>
   );
 };

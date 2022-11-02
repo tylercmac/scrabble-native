@@ -2,11 +2,12 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 10
+    display: 'flex',
     backgroundColor: '#b01315',
     color: '#e6c998',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     height: '100%'
   },
   h1: {
@@ -154,22 +155,32 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 8
   },
   scoreRow: {
     display: 'flex', 
     flexDirection: 'row', 
     width: 100,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 6
   },
   scoreInput: {
     borderBottomWidth: 1,
     width: 50,
     height: 20,
-    marginRight: 20,
     marginTop: 6,
+    marginLeft: 5,
+    paddingLeft: 5,
     backgroundColor: 'rgba(230, 201, 152, .5)',
-    fontSize: 10
+    fontSize: 16,
+    borderRadius: 3,
+  },
+  wordInput: {
+    borderBottomWidth: 1,
+    width: 100,
+    height: 20,
+    borderRadius: 3,
+    fontSize: 16,
+    textAlign: 'center',
   }
 });
