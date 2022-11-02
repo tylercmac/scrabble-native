@@ -25,7 +25,7 @@ export default function Setup({ navigation }) {
   const getData = async () => {
     const count = await getItem('@count')
     setPlayerCount(count)
-    if (count && playerNames) {
+    if (count && playerNames.length) {
       navigation.push('Game', { names: playerNames })
     }
     return count
@@ -37,6 +37,7 @@ export default function Setup({ navigation }) {
       playerNameArr.push(
         <TextInput 
           key={i}
+          style={{ margin: 5 }}
           type="text" 
           onChangeText={newText => {
             playerNames[i] = newText
@@ -51,8 +52,8 @@ export default function Setup({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <OswaldText text="Number of Players:" styles={styles.h1} />
+    <View style={{...styles.container, justifyContent: 'center'}}>
+      <OswaldText text="Number of Players:" styles={{...styles.h1, marginBottom: 4 }} />
       <CountTiles 
         storeCount={storeCount}
         setModalVisible={setModalVisible}
@@ -69,15 +70,17 @@ export default function Setup({ navigation }) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <View style= {{ justifyContent: 'space-around', marginBottom: 20 }}>
             <PlayerInputs />
+            </View>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible)
-                navigation.navigate('Game', { names: playerNames })
+                navigation.navigate('Game', { names: playerNames || [] })
               }}
             >
-              <Text style={styles.textStyle}>Start Game!</Text>
+              <OswaldText styles={styles.textStyle} text="Start Game!" />
             </Pressable>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ImageBackground } from 'react-native';
 import { OswaldText } from './OswaldText'
 import { styles } from '../styles'
 
@@ -12,9 +12,14 @@ export const CountTiles = ({ storeCount, setModalVisible, setPlayerCount }) => {
           storeCount("2")
         }}
         >
-        <View style={styles.countTile} key="2" data-letter="2" >
-          <OswaldText text="2" styles={styles.countNumber} />
-          <OswaldText text="1" styles={ styles.countPoints } />
+        <View style={styles.shadowProp}>
+          <ImageBackground 
+            style={styles.countTile}
+            source={require('../assets/tile.jpg')} 
+            >
+            <OswaldText styles={{...styles.countNumber, opacity: .85 }} text="2" />
+            <OswaldText styles={styles.countPoints} text="1" />
+          </ImageBackground>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
@@ -24,9 +29,14 @@ export const CountTiles = ({ storeCount, setModalVisible, setPlayerCount }) => {
           storeCount("3")
         }}
         >
-        <View style={styles.countTile} key="3" data-letter="3" >
-          <OswaldText text="3" styles={styles.countNumber} />
-          <OswaldText text="1" styles={ styles.countPoints } />
+        <View style={styles.shadowProp}>
+          <ImageBackground 
+            style={styles.countTile}
+            source={require('../assets/tile.jpg')} 
+            >
+            <OswaldText styles={{...styles.countNumber, opacity: .85 }} text="3" />
+            <OswaldText styles={styles.countPoints} text="1" />
+          </ImageBackground>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
@@ -36,9 +46,14 @@ export const CountTiles = ({ storeCount, setModalVisible, setPlayerCount }) => {
           storeCount("4")
         }}
         >
-        <View style={styles.countTile} key="4" data-letter="4" >
-          <OswaldText text="4" styles={styles.countNumber} />
-          <OswaldText text="1" styles={ styles.countPoints } />
+        <View style={styles.shadowProp}>
+          <ImageBackground 
+            style={styles.countTile}
+            source={require('../assets/tile.jpg')} 
+            >
+            <OswaldText styles={{...styles.countNumber, opacity: .85 }} text="4" />
+            <OswaldText styles={styles.countPoints} text="1" />
+          </ImageBackground>
         </View>
       </TouchableOpacity>
     </View>

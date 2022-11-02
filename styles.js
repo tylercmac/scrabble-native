@@ -1,24 +1,25 @@
 import { StyleSheet } from 'react-native';
 
+const scrabbRed = '#b01315'
+const scrabbBrown = '#e6c998'
+
 export const styles = StyleSheet.create({
   container: {
-    // flex: 10
     display: 'flex',
-    backgroundColor: '#b01315',
-    color: '#e6c998',
+    backgroundColor: scrabbRed,
+    color: scrabbBrown,
     alignItems: 'center',
-    // justifyContent: 'center',
     height: '100%'
   },
   h1: {
     fontSize: 30, 
-    color: '#e6c998',
+    color: scrabbBrown,
     padding: 5,
     textAlign: 'center',
   },
   appTitle: {
-    backgroundColor: '#e6c998',
-    color: '#b01315',
+    backgroundColor: scrabbBrown,
+    color: scrabbRed,
     paddingTop: 15
   },
   centeredView: {
@@ -28,11 +29,14 @@ export const styles = StyleSheet.create({
     marginTop: 22
   },
   modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    margin: 10,
+    width: 225,
+    height: 250,
+    backgroundColor: scrabbBrown,
+    borderRadius: 15,
+    // padding: 35,
     alignItems: "center",
+    justifyContent: 'center',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -43,18 +47,19 @@ export const styles = StyleSheet.create({
     elevation: 5
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    justifySelf: 'flex-end'
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: scrabbRed,
   },
   textStyle: {
-    color: "white",
+    color: scrabbBrown,
     textAlign: "center"
   },
   modalText: {
@@ -68,23 +73,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   countTile: {
-    margin: 10,
-    backgroundColor: "#f5cf90",
-    position: "relative",
+    marginLeft: 6,
+    marginRight: 6,
     width: 50,
     height: 50,
-    boxSizing: "border-box",
-    boxShadow: "0 4 3 -2 rgba(0, 0, 0, 0.4)",
-    borderStyle: "solid",
-    borderTopWidth: 3,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 4,
-    borderTopColor: "rgba(255, 255, 255, 0.45)",
-    borderLeftColor: "rgba(255, 255, 255, 0.25)",
-    borderRightColor: "rgba(0, 0, 0, 0.15)",
-    borderBottomColor: "rgba(0, 0, 0, 0.3)",
-    borderRadius: 3,
+    borderRadius: 5,
+    overflow: 'hidden'
   },
   letterTile: {
     marginLeft: 2,
@@ -105,9 +99,15 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
   },
+  countNumber: {
+    alignSelf: "center",
+    justifySelf: 'center',
+    // paddingBottom: 2,
+    fontSize: 30
+  },
   scoreBox: {
-    backgroundColor: '#b01315',
-    borderColor: '#e6c998',
+    backgroundColor: scrabbRed,
+    borderColor: scrabbBrown,
     borderWidth: 1, 
     borderRadius: 3,
     height: 25, 
@@ -117,7 +117,7 @@ export const styles = StyleSheet.create({
     marginTop: 4
   },
   scoreText: {
-    color: '#e6c998',
+    color: scrabbBrown,
     position: 'absolute',
     bottom: 0,
     fontSize: 16
@@ -132,21 +132,16 @@ export const styles = StyleSheet.create({
     right: 4,
     fontSize: 6,
   },
-  countNumber: {
-    alignSelf: "center",
-    margin: "auto",
-    fontSize: 23
-  },
   countPoints: {
     fontFamily: "sans-serif",
     position: "absolute",
-    bottom: 0,
-    right: 4,
+    bottom: 1,
+    right: 5,
     fontSize: 10,
   },
   resetFooter: {
-    backgroundColor: '#e6c998',
-    color: '#b01315',
+    backgroundColor: scrabbBrown,
+    color: scrabbRed,
     position: 'absolute', 
     bottom: 0, 
     width: '100%',
