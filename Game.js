@@ -83,27 +83,17 @@ export default function Game({ navigation, route }) {
   return (
       <View style={styles.container}>
 
-        { openLink && word ? 
-        <>
+        { openLink && word && isValid ? 
           <ContentView word={word} /> 
-          <Pressable 
-            onPress={async () => {
-              setOpenLink(false)
-              setWord('')
-            }}>
-            <OswaldText text="Close" styles={{ textAlign: 'center', color: '#e6c998' }} />
-          </Pressable>
-          </>
         : ''}
         <View style={styles.checkWord}>
           <View style={{ height: 25}} >
           {isValid && word.length ? 
             <Pressable 
               onPress={async () => {
-                setIsValid(false)
-                setOpenLink(true)
+                setOpenLink(!openLink)
               }}>
-              <OswaldText text="Definition" styles={{ textAlign: 'center', color: '#b01315' }} />
+              <OswaldText text={openLink ? "Close" : "Definition"}  styles={{ textAlign: 'center', color: '#b01315' }} />
             </Pressable> : ''}
           </View>
           
@@ -117,16 +107,19 @@ export default function Game({ navigation, route }) {
             onChangeText={word => setWord(word)} 
             onSubmitEditing={async () => await wordExists()}
             />
-          <Pressable 
-            style={{...styles.centerItems, height: 50 }} 
+
+          <View style={{ ...styles.centerItems, height: 50}} >
+          { !openLink ?
+            <Pressable 
             onPress={async () => {
               Keyboard.dismiss()
               const isWord = await wordExists(word) 
               showToastWithGravity(isWord ? "This is a Scrabble Word" : "This is not a Scrabble Word")
               
             }}>
-            <OswaldText text="CHECK WORD" styles={{ color: '#b01315', fontSize: 16 }} />
-          </Pressable>
+              <OswaldText text="CHECK WORD" styles={ word ? { color: '#b01315', fontSize: 16 } : { color: '#c7685f', fontSize: 16 }} />
+            </Pressable> : ''}
+          </View>
         </View>
 
         <View style={{ marginTop: 20 }}>
