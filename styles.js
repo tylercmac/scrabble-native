@@ -9,7 +9,29 @@ export const styles = StyleSheet.create({
     backgroundColor: scrabbRed,
     color: scrabbBrown,
     alignItems: 'center',
-    height: '100%'
+    height: '100%',
+    flex: 1
+  },
+  checkWord: {
+    justifySelf: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+    paddingTop: 10,
+    backgroundColor: 'rgba(230, 201, 152, .9)', 
+    width: '50%', 
+    borderRadius: 3 
+  },
+  video: {
+    marginTop: 20,
+    maxHeight: 200,
+    width: 320,
+    flex: 1
+  },
+  webView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   h1: {
     fontSize: 30, 

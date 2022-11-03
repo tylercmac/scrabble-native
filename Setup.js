@@ -25,7 +25,7 @@ export default function Setup({ navigation }) {
   const getData = async () => {
     const count = await getItem('@count')
     setPlayerCount(count)
-    if (count && playerNames.length) {
+    if (count && playerNames) {
       navigation.push('Game', { names: playerNames })
     }
     return count

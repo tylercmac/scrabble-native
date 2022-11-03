@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking } from 'react-native';
+import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking, Text } from 'react-native';
 import { OswaldText } from './components/OswaldText'
 import PlayerBoxes from './components/PlayerBoxes'
 import { styles } from './styles'
 import txt from './assets/scrabblewords2.json'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ContentView } from './ContentView';
 // import RNFS from "react-native-fs";
 
 
@@ -12,11 +13,12 @@ export default function Game({ navigation, route }) {
   const { names } = route.params
   const [word, setWord] = useState('')
   const [isValid, setIsValid] = useState(false)
+  const [openLink, setOpenLink] = useState(false)
 
   useEffect(() => {
     // readFile(RNFS.DocumentDirectoryPath)
-    !word.length ? setIsValid(false) : ''
-  }, [])
+    !word.length ? setIsValid(false) : ' '
+  }, [openLink])
 
   const clearAll = async () => {
     try {
@@ -47,7 +49,7 @@ export default function Game({ navigation, route }) {
   //   }
   // };
 
-  const wordExists = async (wordsrch) => {
+  const wordExists = async () => {
     Keyboard.dismiss()
     const exists = await txt.find((listWord => listWord === word.toUpperCase()))
     setIsValid(exists) 
@@ -81,20 +83,37 @@ export default function Game({ navigation, route }) {
   return (
       <View style={styles.container}>
 
-        <View style={{ justifySelf: 'flex-start', justifyContent: 'center', alignItems: 'center', marginTop: 30, paddingTop: 10, backgroundColor: 'rgba(230, 201, 152, .9)', width: '50%', borderRadius: 3 }}>
-          <View style={{ height: 25}} >
-          {isValid && word.length ? <Pressable 
+        { openLink && word ? 
+        <>
+          <ContentView word={word} /> 
+          <Pressable 
             onPress={async () => {
-              setIsValid(false)
-              await Linking.openURL(`https://scrabblewordfinder.org/dictionary/${word}`)
+              setOpenLink(false)
+              setWord('')
             }}>
-            <OswaldText text="Definition" styles={{ textAlign: 'center', color: '#b01315' }} />
-          </Pressable> : ''}
-              </View>
-              
+            <OswaldText text="Close" styles={{ textAlign: 'center', color: '#e6c998' }} />
+          </Pressable>
+          </>
+        : ''}
+        <View style={styles.checkWord}>
+          <View style={{ height: 25}} >
+          {isValid && word.length ? 
+            <Pressable 
+              onPress={async () => {
+                setIsValid(false)
+                setOpenLink(true)
+              }}>
+              <OswaldText text="Definition" styles={{ textAlign: 'center', color: '#b01315' }} />
+            </Pressable> : ''}
+          </View>
           
           <TextInput
             style={{...styles.wordInput, fontFamily: 'Oswald_400Regular', }}
+            onFocus={() => {
+              setIsValid(false)
+              setWord('')
+            }}
+            value={word}
             onChangeText={word => setWord(word)} 
             onSubmitEditing={async () => await wordExists()}
             />
