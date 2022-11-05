@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
-import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking, Text } from 'react-native';
+import { useState, useEffect,  useRef } from 'react';
+import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking, Text, DrawerLayoutAndroid, Button } from 'react-native';
 import { OswaldText } from './components/OswaldText'
 import PlayerBoxes from './components/PlayerBoxes'
 import { styles } from './styles'
 import txt from '../assets/scrabblewords2.json'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContentView } from './ContentView';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import RNFS from "react-native-fs";
 
 
 export default function Game({ navigation, route }) {
+  const drawer = useRef(null);
   const { names } = route.params
   const [word, setWord] = useState('')
   const [isValid, setIsValid] = useState(false)
@@ -80,7 +82,22 @@ export default function Game({ navigation, route }) {
   //   }
   // }
 
+  const DefinitionView = () => (
+    <View style={[styles.container]}>
+      <ContentView word={word} />
+      <Pressable onPress={() => drawer.current.closeDrawer()} >
+        <OswaldText text="CLOSE" styles={{ color: '#e6c998', fontSize: 20, marginBottom: 8 }} />
+      </Pressable>
+    </View>
+  );
+
   return (
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={300}
+      drawerPosition='left'
+      renderNavigationView={DefinitionView}
+    >
       <View style={styles.container}>
         { openLink && word && isValid ? 
           <ContentView word={word} /> 
@@ -90,7 +107,11 @@ export default function Game({ navigation, route }) {
           {isValid && word.length ? 
             <Pressable 
               onPress={async () => {
-                setOpenLink(!openLink)
+                if (openLink) {
+                  setOpenLink(!openLink)
+                } else {
+                  drawer.current.openDrawer()
+                }
               }}>
               <OswaldText text={openLink ? "Close" : "Definition"}  styles={{ textAlign: 'center', color: '#b01315' }} />
             </Pressable> : ''}
@@ -119,11 +140,27 @@ export default function Game({ navigation, route }) {
           </View>
         </View>
 
+        <View style={{ marginTop: 3, display: 'flex', justifyContent: 'center' }} >
+          <OswaldText styles={{ fontStyle: 'italic'}} text={<><Icon name="gesture-swipe-right" size={18} /> to open dictionary</>} />
+        </View>
+
         <View style={{ marginTop: 20 }}>
           <PlayerBoxes names={names} />
           <View style={{ borderColor: '#e6c998', borderWidth: .5, width: 400, marginTop: 20 }} />
         </View>
 
+            <View
+              style={{ position: 'absolute', left: 5, top: '50%'}}
+            >
+
+        <Pressable
+            onPress={() => drawer.current.openDrawer()}
+            >
+        <Icon style={{ opacity: .7 }} color="#e6c998" name="arrow-expand-right" size={18} />
+        </Pressable>
+                </View>
+
+      </View>
         <View style={styles.resetFooter}>
           <Pressable 
             style={styles.resetFooter} 
@@ -131,11 +168,10 @@ export default function Game({ navigation, route }) {
               await clearAll()
               navigation.navigate('Setup')
             }}>
-            <OswaldText text="Reset" styles={{ textAlign: 'center', color: '#b01315' }} />
+            <OswaldText text="NEW GAME" styles={{ textAlign: 'center', color: '#b01315' }} />
           </Pressable>
 
         </View>
-
-      </View>
+      </DrawerLayoutAndroid>
   );
 };

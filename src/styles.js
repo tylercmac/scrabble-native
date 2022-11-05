@@ -35,8 +35,9 @@ export const styles = StyleSheet.create({
   },
   video: {
     marginTop: 10,
-    maxHeight: 300,
-    width: 320,
+    marginBottom: 10,
+    height: 320,
+    width: 280,
     flex: 1
   },
   webView: {
@@ -175,8 +176,7 @@ export const styles = StyleSheet.create({
   resetFooter: {
     backgroundColor: scrabbBrown,
     color: scrabbRed,
-    position: 'absolute', 
-    bottom: 0, 
+    position: 'relative', 
     width: '100%',
   },
   centerItems: {
@@ -193,14 +193,13 @@ export const styles = StyleSheet.create({
     marginTop: 6
   },
   scoreInput: {
-    borderBottomWidth: 1,
     width: 50,
-    height: 20,
+    height: 25,
     marginTop: 6,
     marginLeft: 5,
     paddingLeft: 5,
     backgroundColor: 'rgba(230, 201, 152, .5)',
-    fontSize: 16,
+    fontSize: 18,
     borderRadius: 3,
   },
   wordInput: {

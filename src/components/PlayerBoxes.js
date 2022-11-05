@@ -76,7 +76,7 @@ export default function PlayerBoxes({ names }) {
       )
     }
     playerBoxes.push(
-      <View style={{...styles.centerItems, marginTop:8 }} key={playerNames[i]}>
+      <View style={{...styles.centerItems, marginTop: 10 }} key={playerNames[i]}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{flex: 1, height: 1, backgroundColor: '#e6c998'}} />
           <View style={styles.rack}>
@@ -112,7 +112,7 @@ export default function PlayerBoxes({ names }) {
             
         <View style={styles.scoreRow}>
           <KeyboardAvoidingView
-            behavior="position"
+            behavior="height"
             style={{flex: 1}}
             >
             <KeyboardAwareScrollView>
