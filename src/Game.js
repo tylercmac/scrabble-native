@@ -3,7 +3,7 @@ import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking
 import { OswaldText } from './components/OswaldText'
 import PlayerBoxes from './components/PlayerBoxes'
 import { styles } from './styles'
-import txt from './assets/scrabblewords2.json'
+import txt from '../assets/scrabblewords2.json'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContentView } from './ContentView';
 // import RNFS from "react-native-fs";
@@ -82,7 +82,6 @@ export default function Game({ navigation, route }) {
 
   return (
       <View style={styles.container}>
-
         { openLink && word && isValid ? 
           <ContentView word={word} /> 
         : ''}
@@ -105,7 +104,7 @@ export default function Game({ navigation, route }) {
             }}
             value={word}
             onChangeText={word => setWord(word)} 
-            onSubmitEditing={async () => await wordExists()}
+            onSubmitEditing={async () => word && await wordExists() }
             />
 
           <View style={{ ...styles.centerItems, height: 50}} >
@@ -113,9 +112,7 @@ export default function Game({ navigation, route }) {
             <Pressable 
             onPress={async () => {
               Keyboard.dismiss()
-              const isWord = await wordExists(word) 
-              showToastWithGravity(isWord ? "This is a Scrabble Word" : "This is not a Scrabble Word")
-              
+              if (word) await wordExists() 
             }}>
               <OswaldText text="CHECK WORD" styles={ word ? { color: '#b01315', fontSize: 16 } : { color: '#c7685f', fontSize: 16 }} />
             </Pressable> : ''}

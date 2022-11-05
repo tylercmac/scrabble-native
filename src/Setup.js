@@ -52,7 +52,7 @@ export default function Setup({ navigation }) {
   }
 
   return (
-    <View style={{...styles.container, justifyContent: 'center'}}>
+    <View style={{...styles.container, ...styles.setupContainer }}>
       <OswaldText text="Number of Players:" styles={{...styles.h1, marginBottom: 4 }} />
       <CountTiles 
         storeCount={storeCount}

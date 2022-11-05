@@ -15,7 +15,7 @@ export const CountTiles = ({ storeCount, setModalVisible, setPlayerCount }) => {
         <View style={styles.shadowProp}>
           <ImageBackground 
             style={styles.countTile}
-            source={require('../assets/tile.jpg')} 
+            source={require('../../assets/tile.jpg')} 
             >
             <OswaldText styles={{...styles.countNumber, opacity: .85 }} text="2" />
             <OswaldText styles={styles.countPoints} text="1" />
@@ -32,7 +32,7 @@ export const CountTiles = ({ storeCount, setModalVisible, setPlayerCount }) => {
         <View style={styles.shadowProp}>
           <ImageBackground 
             style={styles.countTile}
-            source={require('../assets/tile.jpg')} 
+            source={require('../../assets/tile.jpg')} 
             >
             <OswaldText styles={{...styles.countNumber, opacity: .85 }} text="3" />
             <OswaldText styles={styles.countPoints} text="1" />
@@ -49,7 +49,7 @@ export const CountTiles = ({ storeCount, setModalVisible, setPlayerCount }) => {
         <View style={styles.shadowProp}>
           <ImageBackground 
             style={styles.countTile}
-            source={require('../assets/tile.jpg')} 
+            source={require('../../assets/tile.jpg')} 
             >
             <OswaldText styles={{...styles.countNumber, opacity: .85 }} text="4" />
             <OswaldText styles={styles.countPoints} text="1" />

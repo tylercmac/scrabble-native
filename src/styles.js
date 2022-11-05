@@ -4,6 +4,17 @@ const scrabbRed = '#b01315'
 const scrabbBrown = '#e6c998'
 
 export const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1, 
+    borderRightWidth: 15, 
+    borderLeftWidth: 15, 
+    borderColor: '#e6c998'
+  },
+  setupContainer: {
+    justifyContent: 'center', 
+    borderBottomWidth: 20, 
+    borderColor:'#e6c998'
+  },
   container: {
     display: 'flex',
     backgroundColor: scrabbRed,
@@ -19,12 +30,12 @@ export const styles = StyleSheet.create({
     marginTop: 30,
     paddingTop: 10,
     backgroundColor: 'rgba(230, 201, 152, .9)', 
-    width: '50%', 
+    width: '60%', 
     borderRadius: 3 
   },
   video: {
-    marginTop: 20,
-    maxHeight: 200,
+    marginTop: 10,
+    maxHeight: 300,
     width: 320,
     flex: 1
   },

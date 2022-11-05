@@ -16,7 +16,7 @@ import Game from './Game';
 
 const Stack = createNativeStackNavigator();
 
-export default function App () {
+export default function App ({ navigation }) {
   const [fontsLoaded] = useFonts({
     Oswald_400Regular
   });
@@ -39,12 +39,12 @@ export default function App () {
   }
   
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <View style={styles.mainContainer} onLayout={onLayoutRootView}>
       <OswaldText text="ScrabbleMaster" styles={{...styles.h1, ...styles.appTitle}} />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-        >
+          >
           <Stack.Screen
             name="Setup"
             component={Setup}
