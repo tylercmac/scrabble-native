@@ -1,5 +1,5 @@
 import { useState, useEffect,  useRef } from 'react';
-import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking, Text, DrawerLayoutAndroid, Button } from 'react-native';
+import { View, ScrollView, Pressable, TextInput, ToastAndroid, Keyboard, Linking, Text, DrawerLayoutAndroid, Button, SafeAreaView, Dimensions } from 'react-native';
 import { OswaldText } from './components/OswaldText'
 import PlayerBoxes from './components/PlayerBoxes'
 import { styles } from './styles'
@@ -7,8 +7,15 @@ import txt from '../assets/scrabblewords2.json'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContentView } from './ContentView';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import RNFS from "react-native-fs";
+import {Timer, Countdown} from 'react-native-element-timer';
 
+const screen = Dimensions.get('window')
+
+const getRemaining = (time) => {
+  const min = Math.floor(time / 60)
+  const secs = time - min * 60
+  return { min, secs }
+}
 
 export default function Game({ navigation, route }) {
   const drawer = useRef(null);
@@ -16,11 +23,29 @@ export default function Game({ navigation, route }) {
   const [word, setWord] = useState('')
   const [isValid, setIsValid] = useState(false)
   const [openLink, setOpenLink] = useState(false)
+  const [time, setTime] = useState(180)
+  const [isActive, setIsActive] = useState(false)
+  const { min, secs } = getRemaining(time)
 
   useEffect(() => {
-    // readFile(RNFS.DocumentDirectoryPath)
     !word.length ? setIsValid(false) : ' '
   }, [openLink])
+
+  useEffect(() => {
+    let interval = null
+    if (isActive) {
+      interval = setInterval(() => {
+        setTime(time => time - 1)
+      }, 1000)
+    } else if (!isActive || time === 0) {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [isActive, time])
+
+ const toggle = () => {
+    setIsActive(!isActive)
+  }
 
   const clearAll = async () => {
     try {
@@ -39,17 +64,6 @@ export default function Game({ navigation, route }) {
       ToastAndroid.CENTER
     );
   };
-  // const readFile = async (currDir) => {
-  //   try {
-  //     const path =  currDir + "/assets/scrabblewords.txt";
-  //     const contents = await RNFS.readFile(path, "utf8");
-  //     console.table(contents);
-  //     return("" + contents);
-      
-  //   } catch (e) {
-  //     alert("" + e);
-  //   }
-  // };
 
   const wordExists = async () => {
     Keyboard.dismiss()
@@ -59,26 +73,19 @@ export default function Game({ navigation, route }) {
     return exists
   }
 
-  // const callAPI = async (word) =>  {
-  //   let UIResponse = {
-  //     status: 200,
-  //     url: ''
-  //   }
-  //   const baseURL = `https://api.wordnik.com/v4/word.json/dog/definitions?limit=5&includeRelated=false&useCanonical=false&includeTags=false&api_key=YOURAPIKEY`
+  // const callAPI = async () =>  {
+  //   const baseURL = `https://api.wordnik.com/v4/word.json/${word.toLowerCase()}/definitions?limit=5&includeRelated=false&sourceDictionaries=webster&useCanonical=false&includeTags=false&api_key=af7kvyz2kgvy8dh33q4fs4zk0t4zri42kq17ec6y8akdq44kr`
   //   try {
   //     const response = await fetch(baseURL, { method: 'get' })
-  //     console.log({response});
   //     if (response.status === 404) {
-  //       return response
-  //     } else if (response.status === 200) {
-  //       const parsedResponse = await response.json();
-  //       UIResponse.url = parsedResponse[0].wordnikUrl
-  //       console.log({UIResponse});
-        
-  //       return UIResponse
+  //       setIsValid(false) 
+  //       showToastWithGravity("This is not a Scrabble Word")
+  //     } else if (response.status === 200) {       
+  //       setIsValid(true) 
+  //       showToastWithGravity("This is a Scrabble Word")
   //     }
   //   } catch (err) {
-  //     console.error('Could not fetch from dictionaryapi', err);
+  //     console.log('Could not fetch from dictionaryapi', err);
   //   }
   // }
 
@@ -90,6 +97,14 @@ export default function Game({ navigation, route }) {
       </Pressable>
     </View>
   );
+
+  const renderTimerText = () => {
+    if (time === 180 && !isActive) {
+      return 'Start'
+    } else if (isActive) {
+      return 'Pause'
+    } else return 'Resume'
+  }
 
   return (
     <DrawerLayoutAndroid
@@ -133,6 +148,7 @@ export default function Game({ navigation, route }) {
             <Pressable 
             onPress={async () => {
               Keyboard.dismiss()
+              // if (word) await callAPI() 
               if (word) await wordExists() 
             }}>
               <OswaldText text="CHECK WORD" styles={ word ? { color: '#b01315', fontSize: 16 } : { color: '#c7685f', fontSize: 16 }} />
@@ -158,7 +174,24 @@ export default function Game({ navigation, route }) {
             >
         <Icon style={{ opacity: .7 }} color="#e6c998" name="arrow-expand-right" size={18} />
         </Pressable>
-                </View>
+      </View>
+
+      <SafeAreaView>
+        <OswaldText text={`${min}: ${secs}`} styles={{ textAlign: 'center' }}/>
+          <Button
+              style={{ width: screen.width / 2}}
+              title={renderTimerText()}
+              onPress={() => toggle()}
+              />
+          <Button
+              style={{}}
+              title='Reset'
+              onPress={() => {
+                setIsActive(false)
+                setTime(180)
+              }}
+              />
+        </SafeAreaView>
 
       </View>
         <View style={styles.resetFooter}>
