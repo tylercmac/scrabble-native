@@ -1,5 +1,4 @@
 package com.tylercmac.testexpo;
-import com.rnfs.RNFSPackage;
 
 import android.app.Application;
 import android.content.Context;
@@ -35,8 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
-      packages.add(new MainReactPackage());
-      packages.add(new RNFSPackage());
+      // packages.add(new MyReactNativePackage());
       return packages;
     }
 
